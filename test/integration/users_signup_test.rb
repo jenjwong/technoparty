@@ -10,6 +10,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
                                password:              "foo",
                                password_confirmation: "bar" }
     end
+  end
 
 test "valid signup information" do
     get signup_path
@@ -20,5 +21,6 @@ test "valid signup information" do
                                             password_confirmation: "password" }
     end
     assert_template 'users/show'
+    assert is_logged_in?
   end
 end
