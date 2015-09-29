@@ -30,4 +30,15 @@ class SessionsHelperTest < ActionView::TestCase
     @user.update_attribute(:remember_digest, User.digest(User.new_token))
     assert_nil current_user
   end
+
+  #Rediredts to stored location or default
+  def redirect_back_or(default)
+    redirect_to(session[:forwarding_url] || default)
+    session.delete(:forwarding_url)
+  end
+
+  #stores the URL trying to be accessed
+  def store_location
+    session[:forwarding_url] = request.url if requestlget?
+  end
 end
