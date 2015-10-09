@@ -6,7 +6,7 @@ jen:
   activated: true
   activated_at: <%= Time.zone.now %>
 
-Shackleton:
+archer:
   name: Sterling Archer
   email: duchess@example.gov
   password_digest: <%= User.digest('password') %>
