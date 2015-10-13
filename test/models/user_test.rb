@@ -59,7 +59,7 @@ class UserTest < ActiveSupport::TestCase
     @user.password = @user.password_confirmation = "a" * 5
     assert_not @user.valid?
   end
-  
+
   test "associated microposts should be destroyed" do
       @user.save
       @user.microposts.create!(content: "Lorem ipsum")
@@ -67,4 +67,32 @@ class UserTest < ActiveSupport::TestCase
         @user.destroy
       end
     end
+   test "should follow and unfollow a user" do
+    jen  = users(:jen)
+    archer   = users(:archer)
+    assert_not jen.following?(archer)
+    jen.follow(archer)
+    assert jen.following?(archer)
+    assert archer.followers.include?(jen)
+    jen.unfollow(archer)
+    assert_not jen.following?(archer)
   end
+
+  test "feed should have the right posts" do
+    jen = users(:jen)
+    archer  = users(:archer)
+    lana    = users(:lana)
+    # Posts from followed user
+    lana.microposts.each do |post_following|
+      assert jen.feed.include?(post_following)
+    end
+    # Posts from self
+    jen.microposts.each do |post_self|
+      assert jen.feed.include?(post_self)
+    end
+    # Posts from unfollowed user
+    archer.microposts.each do |post_unfollowed|
+      assert_not jen.feed.include?(post_unfollowed)
+    end
+  end
+end
