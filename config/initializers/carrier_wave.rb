@@ -5,6 +5,7 @@ if Rails.env.production?
       :provider              => 'AWS',
       :aws_access_key_id     => ENV['AKIAJIWWO2BIWCDHINCA'],
       :aws_secret_access_key => ENV['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']
+      :region                 => 'us-west-2'
     }
     config.fog_directory     =  ENV['technoparty']
   end
